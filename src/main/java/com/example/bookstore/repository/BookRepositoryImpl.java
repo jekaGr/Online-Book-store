@@ -46,7 +46,7 @@ public class BookRepositoryImpl implements BookRepository {
             return session.createQuery(
                     "SELECT u from Book u", Book.class).getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Can't find all actors", e);
+            throw new DataProcessingException("Can't find all books", e);
         }
     }
 
