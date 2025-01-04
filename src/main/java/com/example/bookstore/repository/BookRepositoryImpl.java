@@ -49,6 +49,4 @@ public class BookRepositoryImpl implements BookRepository {
             throw new DataProcessingException("Can't find all books", e);
         }
     }
-
 }
-
