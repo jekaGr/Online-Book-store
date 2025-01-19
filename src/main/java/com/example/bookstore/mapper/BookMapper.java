@@ -10,7 +10,7 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(config = MapperConfig.class)
 public interface BookMapper {
-
+    @Mapping(target = "id", ignore = true)
     BookDto toBookDto(Book book);
 
     @Mapping(target = "id", ignore = true)
