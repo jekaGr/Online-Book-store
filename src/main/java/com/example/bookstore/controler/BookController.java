@@ -1,6 +1,7 @@
 package com.example.bookstore.controler;
 
 import com.example.bookstore.dto.BookDto;
+import com.example.bookstore.dto.BookSearchParameters;
 import com.example.bookstore.dto.CreateBookRequestDto;
 import com.example.bookstore.service.BookService;
 import jakarta.validation.Valid;
@@ -37,6 +38,11 @@ public class BookController {
     @ResponseStatus(HttpStatus.CREATED)
     public BookDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
+    }
+
+    @GetMapping("/search")
+    public List<BookDto> searchBooks(BookSearchParameters searchParameters) {
+        return null;
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
