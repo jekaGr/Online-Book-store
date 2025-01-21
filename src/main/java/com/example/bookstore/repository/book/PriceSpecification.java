@@ -7,14 +7,17 @@ import jakarta.persistence.criteria.Predicate;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PriceSpecification implements SpecificationProvider<Book> {
+    public static final String PRICE = "price";
+
     @Override
     public String getKey() {
-        return "price";
+        return PRICE;
     }
 
     @Override
@@ -24,19 +27,24 @@ public class PriceSpecification implements SpecificationProvider<Book> {
 
             if (params != null && params.length > 0) {
                 try {
-                    if (!params[0].isEmpty()) {
-                        BigDecimal minPrice = new BigDecimal(params[0]);
-                        predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"),
-                                minPrice));
-                    }
+                    Optional.ofNullable(params[0])
+                            .filter(price -> !price.isEmpty())
+                            .map(BigDecimal::new)
+                            .ifPresent(minPrice ->
+                                    predicates.add(criteriaBuilder
+                                            .greaterThanOrEqualTo(root.get(PRICE), minPrice))
+                            );
 
-                    if (params.length > 1 && !params[1].isEmpty()) {
-                        BigDecimal maxPrice = new BigDecimal(params[1]);
-                        predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"),
-                                maxPrice));
-                    }
+                    Optional.ofNullable(params.length > 1 ? params[1] : null)
+                            .filter(price -> !price.isEmpty())
+                            .map(BigDecimal::new)
+                            .ifPresent(maxPrice ->
+                                    predicates.add(criteriaBuilder
+                                            .lessThanOrEqualTo(root.get(PRICE), maxPrice))
+                            );
+
                 } catch (NumberFormatException e) {
-                    new DataProcessingException("Could not parse price", e);
+                    throw new DataProcessingException("Could not parse price", e);
                 }
             }
 

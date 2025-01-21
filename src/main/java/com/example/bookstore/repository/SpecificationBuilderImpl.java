@@ -2,6 +2,9 @@ package com.example.bookstore.repository;
 
 import com.example.bookstore.dto.BookSearchParameters;
 import com.example.bookstore.model.Book;
+import com.example.bookstore.repository.book.AuthorSpecificationProvider;
+import com.example.bookstore.repository.book.PriceSpecification;
+import com.example.bookstore.repository.book.TittlePartSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -15,16 +18,17 @@ public class SpecificationBuilderImpl implements SpecificationBuilder<Book> {
     public Specification<Book> build(BookSearchParameters searchParameters) {
         Specification<Book> spec = Specification.where(null);
         if (searchParameters.prices() != null && searchParameters.prices().length > 0) {
-            spec = spec.and(specificationProviders.getSpecificationProvider("price")
-                    .getSpecification(searchParameters.prices()));
+            spec = spec.and(specificationProviders.getSpecificationProvider(
+                    PriceSpecification.PRICE).getSpecification(searchParameters.prices()));
         }
         if (searchParameters.author() != null && searchParameters.author().length > 0) {
-            spec = spec.and(specificationProviders.getSpecificationProvider("author")
+            spec = spec.and(specificationProviders.getSpecificationProvider(
+                    AuthorSpecificationProvider.AUTHOR)
                     .getSpecification(searchParameters.author()));
         }
         if (searchParameters.titlePart() != null && searchParameters.titlePart().length > 0) {
-            spec = spec.and(specificationProviders.getSpecificationProvider("tittle")
-                    .getSpecification(searchParameters.titlePart()));
+            spec = spec.and(specificationProviders.getSpecificationProvider(
+                    TittlePartSpecification.TITLE).getSpecification(searchParameters.titlePart()));
         }
         return spec;
     }

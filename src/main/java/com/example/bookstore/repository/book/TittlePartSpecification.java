@@ -9,16 +9,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TittlePartSpecification implements SpecificationProvider<Book> {
+    public static final String TITLE = "title";
+
     @Override
     public String getKey() {
-        return "title";
+        return TITLE;
     }
 
     public Specification<Book> getSpecification(String[] params) {
         return (root, query, criteriaBuilder) ->
                 criteriaBuilder.or(
                         Arrays.stream(params).map(param ->
-                                        criteriaBuilder.like(root.get("title"), "%" + param + "%"))
+                                        criteriaBuilder.like(root.get(TITLE), "%" + param + "%"))
                                 .toArray(Predicate[]::new)
                 );
     }
