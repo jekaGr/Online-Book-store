@@ -8,10 +8,10 @@ import com.example.bookstore.mapper.BookMapper;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.repository.BookRepository;
 import com.example.bookstore.repository.SpecificationBuilderImpl;
-import java.awt.print.Pageable;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> findAll(Pageable pageable) {
-        return bookRepository.findAll((Sort) pageable).stream()
+        Page<Book> booksPage = bookRepository.findAll(pageable);
+
+        return booksPage.stream()
                 .map(bookMapper::toBookDto)
                 .toList();
     }
