@@ -3,12 +3,13 @@ package com.example.bookstore.service;
 import com.example.bookstore.dto.BookDto;
 import com.example.bookstore.dto.BookSearchParameters;
 import com.example.bookstore.dto.CreateBookRequestDto;
+import java.awt.print.Pageable;
 import java.util.List;
 
 public interface BookService {
     BookDto save(CreateBookRequestDto requestDto);
 
-    List<BookDto> findAll();
+    List<BookDto> findAll(Pageable pageable);
 
     BookDto findById(long id);
 
