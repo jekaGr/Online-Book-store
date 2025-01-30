@@ -1,9 +1,9 @@
 package com.example.bookstore.controler;
 
-import com.example.bookstore.dto.BookDto;
-import com.example.bookstore.dto.BookSearchParameters;
-import com.example.bookstore.dto.CreateBookRequestDto;
-import com.example.bookstore.service.BookService;
+import com.example.bookstore.dto.book.BookDto;
+import com.example.bookstore.dto.book.BookSearchParameters;
+import com.example.bookstore.dto.book.CreateBookRequestDto;
+import com.example.bookstore.service.book.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

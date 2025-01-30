@@ -1,8 +1,8 @@
-package com.example.bookstore.repository.book;
+package com.example.bookstore.repository.book.specification;
 
 import com.example.bookstore.exception.DataProcessingException;
 import com.example.bookstore.model.Book;
-import com.example.bookstore.repository.SpecificationProvider;
+import com.example.bookstore.repository.book.SpecificationProvider;
 import jakarta.persistence.criteria.Predicate;
 import java.math.BigDecimal;
 import java.util.ArrayList;

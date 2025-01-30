@@ -1,10 +1,10 @@
-package com.example.bookstore.repository;
+package com.example.bookstore.repository.book;
 
-import com.example.bookstore.dto.BookSearchParameters;
+import com.example.bookstore.dto.book.BookSearchParameters;
 import com.example.bookstore.model.Book;
-import com.example.bookstore.repository.book.AuthorSpecificationProvider;
-import com.example.bookstore.repository.book.PriceSpecification;
-import com.example.bookstore.repository.book.TittlePartSpecification;
+import com.example.bookstore.repository.book.specification.AuthorSpecificationProvider;
+import com.example.bookstore.repository.book.specification.PriceSpecification;
+import com.example.bookstore.repository.book.specification.TittlePartSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
