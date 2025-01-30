@@ -18,14 +18,10 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
     @Column(unique = true)
     private String email;
-    @NotBlank
     private String password;
-    @NotBlank
     private String firstName;
-    @NotBlank
     private String lastName;
     private String shippingAddress;
 }
