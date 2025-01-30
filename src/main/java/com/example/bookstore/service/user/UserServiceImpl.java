@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
             throw new RegistrationException("Can't register user");
         }
         User user = userMapper.toUser(requestDto);
-        User savedUser = userRepository.save(user);
-        return userMapper.toUserResponse(savedUser);
+        userRepository.save(user);
+        return userMapper.toUserResponse(user);
     }
 }
