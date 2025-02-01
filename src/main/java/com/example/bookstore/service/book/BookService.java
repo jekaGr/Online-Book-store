@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 public interface BookService {
     BookDto save(CreateBookRequestDto requestDto);
 
-    Page<BookDto> findAll(Pageable pageable);
+    Page<BookDto> findAll(String email, Pageable pageable);
 
     BookDto findById(long id);
 

@@ -3,6 +3,7 @@ package com.example.bookstore.controler;
 import com.example.bookstore.dto.book.BookDto;
 import com.example.bookstore.dto.book.BookSearchParameters;
 import com.example.bookstore.dto.book.CreateBookRequestDto;
+import com.example.bookstore.model.User;
 import com.example.bookstore.service.book.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,6 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Book management",
         description = "Manage books with CRUD operations and search functionality")
 @RestController
+@PreAuthorize("hasRole('Role_USER')")
 @RequestMapping("/books")
 @RequiredArgsConstructor
 public class BookController {
@@ -36,7 +41,9 @@ public class BookController {
     @Operation(summary = "Get all books",
             description = "Get a list of all books with pagination support")
     public Page<BookDto> getAll(@ParameterObject @PageableDefault Pageable pageable) {
-        return bookService.findAll(pageable);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+        return bookService.findAll(user.getEmail(),pageable);
     }
 
     @GetMapping("/{id}")
@@ -47,6 +54,7 @@ public class BookController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('Role_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create new book",
             description = "Add new book")
@@ -62,6 +70,7 @@ public class BookController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('Role_ADMIN')")
     @Operation(summary = "Delete book",
             description = "Remove book by ID")
     @DeleteMapping("/{id}")
@@ -70,6 +79,7 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('Role_ADMIN')")
     @Operation(summary = "Update book by ID",
             description = "Update book by ID")
     public BookDto update(@PathVariable Long id,
