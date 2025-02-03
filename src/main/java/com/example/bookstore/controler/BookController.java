@@ -43,7 +43,7 @@ public class BookController {
     public Page<BookDto> getAll(@ParameterObject @PageableDefault Pageable pageable) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
-        return bookService.findAll(user.getEmail(),pageable);
+        return bookService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
