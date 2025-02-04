@@ -1,0 +1,31 @@
+databaseChangeLog:
+- changeSet:
+    id: 06-insert-users-to-users-table
+    author: jekaG
+    changes:
+      - insert:
+          tableName: users
+          columns:
+            - column: {name: "email", value: "alex.stone@gmail.com"}
+            - column: {name: "password", value: "$2b$12$s3osj.TKxlAYTavuuIqJrOBv2K2N/29I7exLjUcaPT7Mb2y46Smju"} # "alex1234"
+            - column: {name: "first_name", value: "Alex"}
+            - column: {name: "last_name", value: "Stone"}
+            - column: {name: "shipping_address", value: "Rockland, 12/3"}
+
+      - insert:
+          tableName: users
+          columns:
+            - column: {name: "email", value: "lucy.sky@gmail.com"}
+            - column: {name: "password", value: "$2b$12$KXPi0/BE4xhM4Qs54z4v9O3uQJQFDdVjXFx00IkmvvUUN0kIJ7EHu"} # "lucy2023"
+            - column: {name: "first_name", value: "Lucy"}
+            - column: {name: "last_name", value: "Sky"}
+            - column: {name: "shipping_address", value: "Skytown, 22/1"}
+
+      - insert:
+          tableName: users
+          columns:
+            - column: {name: "email", value: "oliver.bright@gmail.com"}
+            - column: {name: "password", value: "$2b$12$xT/Qky/WKJgeL6OgzNxK4eOeXlL2PXqHSpITiakGyUpDtXS2x9r1S"} # "bright99"
+            - column: {name: "first_name", value: "Oliver"}
+            - column: {name: "last_name", value: "Bright"}
+            - column: {name: "shipping_address", value: "Brighton, 55/6"}
