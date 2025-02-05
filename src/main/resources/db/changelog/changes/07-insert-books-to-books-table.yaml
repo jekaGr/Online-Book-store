@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-books-to-books-table
+      author: jekaG
+      changes:
+        - insert:
+            tableName: books
+            columns:
+              - column: { name: "title", value: "Sample Book 1" }
+              - column: { name: "author", value: "Author A" }
+              - column: { name: "isbn", value: "9781122334455" }
+              - column: { name: "price", value: "12.99" }
+              - column: { name: "description", value: "1 sample book description." }
+              - column: { name: "cover_image", value: "1.jpg" }
+        - insert:
+            tableName: books
+            columns:
+              - column: { name: "title", value: "Sample Book 2" }
+              - column: { name: "author", value: "Author B" }
+              - column: { name: "isbn", value: "9781122334457" }
+              - column: { name: "price", value: "15.99" }
+              - column: { name: "description", value: "2 sample book description." }
+              - column: { name: "cover_image", value: "2.jpg" }
+        - insert:
+            tableName: books
+            columns:
+              - column: { name: "title", value: "Sample Book 3" }
+              - column: { name: "author", value: "Author C" }
+              - column: { name: "isbn", value: "9781122334888" }
+              - column: { name: "price", value: "10.99" }
+              - column: { name: "description", value: "3 sample book description."}
+              - column: { name: "cover_image", value: "3.jpg" }
