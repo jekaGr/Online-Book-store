@@ -7,7 +7,6 @@ import com.example.bookstore.mapper.CategoryMapper;
 import com.example.bookstore.model.Category;
 import com.example.bookstore.repository.category.CategoryRepository;
 import java.util.List;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -45,11 +44,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteById(Long id) {
         categoryRepository.deleteById(id);
-    }
-
-    @Override
-    public Set<Category> getCategoriesByIdIn(List<Long> list) {
-        return categoryRepository.getCategoriesByIdIn(list);
     }
 
     private Category getCategoryModelById(Long id) {
