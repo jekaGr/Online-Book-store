@@ -30,3 +30,28 @@ databaseChangeLog:
               - column: { name: "price", value: "10.99" }
               - column: { name: "description", value: "3 sample book description."}
               - column: { name: "cover_image", value: "3.jpg" }
+        - insert:
+            tableName: categories
+            columns:
+              - column: { name: "name", value: "History" }
+              - column: { name: "description", value: "Historical books and biographies." }
+        - insert:
+            tableName: categories
+            columns:
+              - column: { name: "name", value: "Fantasy" }
+              - column: { name: "description", value: "Fantasy and magical stories." }
+        - insert:
+            tableName: books_categories
+            columns:
+              - column: { name: "book_id", value: 1 }
+              - column: { name: "category_id", value: 1 }
+        - insert:
+            tableName: books_categories
+            columns:
+              - column: { name: "book_id", value: 2 }
+              - column: { name: "category_id", value: 2 }
+        - insert:
+            tableName: books_categories
+            columns:
+              - column: { name: "book_id", value: 3 }
+              - column: { name: "category_id", value: 2 }

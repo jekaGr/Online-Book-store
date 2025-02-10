@@ -12,12 +12,12 @@ databaseChangeLog:
   - include:
       file: db/changelog/changes/06-add-is-deleted-to-users.yaml
   - include:
-      file: db/changelog/changes/07-insert-books-to-books-table.yaml
+      file: db/changelog/changes/07-insert-users-to-users-table.yaml
   - include:
-      file: db/changelog/changes/08-insert-users-to-users-table.yaml
+      file: db/changelog/changes/08-fill-users_roles-table.yaml
   - include:
-      file: db/changelog/changes/09-fill-users_roles-table.yaml
+      file: db/changelog/changes/09-create-categories-table.yaml
   - include:
-      file: db/changelog/changes/10-create-categories-table.yaml
+      file: db/changelog/changes/10-create-books_categories-table.yaml
   - include:
-      file: db/changelog/changes/11-create-books_categories-table.yaml
+      file: db/changelog/changes/11-insert-books-to-books-table.yaml
