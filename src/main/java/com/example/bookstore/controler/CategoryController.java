@@ -90,6 +90,6 @@ public class CategoryController {
     public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(
             @PathVariable Long id, Pageable pageable
     ) {
-        return bookService.getAllByCategoryId(id, pageable);
+        return bookService.getAllByCategoryId(id,pageable);
     }
 }
