@@ -1,13 +1,13 @@
 package com.example.bookstore.controler;
 
 import com.example.bookstore.dto.cartitem.CartItemRequestDto;
+import com.example.bookstore.dto.cartitem.UpdateCartItemDto;
 import com.example.bookstore.dto.shoppingcart.ShoppingCartResponseDto;
 import com.example.bookstore.model.User;
 import com.example.bookstore.service.shoppingcart.ShoppingCartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -64,7 +64,7 @@ public class ShoppingCartController {
             @PathVariable Long cartItemId,
             @AuthenticationPrincipal User user
     ) {
-        shoppingCartService.deleteCartItem(cartItemId);
+        shoppingCartService.deleteCartItem(cartItemId,user);
     }
 
     @PutMapping("/items/{cartItemId}")
@@ -74,8 +74,9 @@ public class ShoppingCartController {
             description = "Update quantity"
     )
     public ShoppingCartResponseDto updateCartItem(
-            @PathVariable Long cartItemId,@Positive int quantity
-    ) {
-        return shoppingCartService.updateCartItem(cartItemId, quantity);
+            @PathVariable Long cartItemId,
+            @RequestBody @Valid UpdateCartItemDto dtoForUpdate,
+            @AuthenticationPrincipal User user) {
+        return shoppingCartService.updateCartItem(cartItemId,dtoForUpdate,user);
     }
 }

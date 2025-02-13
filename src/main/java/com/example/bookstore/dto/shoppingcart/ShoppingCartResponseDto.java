@@ -9,5 +9,6 @@ import lombok.Setter;
 @Setter
 public class ShoppingCartResponseDto {
     private Long id;
+    private Long userId;
     private Set<CartItemResponseDto> cartItems;
 }

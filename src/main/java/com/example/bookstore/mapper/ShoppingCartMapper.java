@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(config = MapperConfig.class)
+@Mapper(config = MapperConfig.class, uses = CartItemMapper.class)
 public interface ShoppingCartMapper {
     @Mapping(target = "cartItems",
             expression = "java(cartItemsToCartItemResponseDto(shoppingCart.getCartItems()))")
@@ -18,16 +18,9 @@ public interface ShoppingCartMapper {
 
     default Set<CartItemResponseDto> cartItemsToCartItemResponseDto(Set<CartItem> cartItems) {
         return cartItems.stream()
-                .map(this::cartItemToCartItemResponseDto)
+                .map(cartItem -> cartItemToCartItemResponseDto(cartItem))
                 .collect(Collectors.toSet());
     }
 
-    default CartItemResponseDto cartItemToCartItemResponseDto(CartItem cartItem) {
-        CartItemResponseDto responseDto = new CartItemResponseDto();
-        responseDto.setId(cartItem.getId());
-        responseDto.setBookId(cartItem.getBook().getId());
-        responseDto.setBookTitle(cartItem.getBook().getTitle());
-        responseDto.setQuantity(cartItem.getQuantity());
-        return responseDto;
-    }
+    CartItemResponseDto cartItemToCartItemResponseDto(CartItem cartItem);
 }
