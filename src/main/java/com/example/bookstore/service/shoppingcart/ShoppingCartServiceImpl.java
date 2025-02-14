@@ -11,7 +11,6 @@ import com.example.bookstore.model.User;
 import com.example.bookstore.repository.book.BookRepository;
 import com.example.bookstore.repository.cartitem.CartItemRepository;
 import com.example.bookstore.repository.shoppingcart.ShoppingCartRepository;
-import java.util.HashSet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,16 +74,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return shoppingCartMapper.toShoppingCartResponseDto(shoppingCart);
     }
 
-    @Override
-    public ShoppingCart getShoppingCartByUserId(User user) {
+    private ShoppingCart getShoppingCartByUserId(User user) {
         Long userId = user.getId();
-        return shoppingCartRepository.findByUserId(userId)
-                .orElseGet(() -> {
-                    ShoppingCart newShoppingCart = new ShoppingCart();
-                    newShoppingCart.setUser(user);
-                    newShoppingCart.setCartItems(new HashSet<>());
-                    shoppingCartRepository.save(newShoppingCart);
-                    return newShoppingCart;
-                });
+        return shoppingCartRepository.findByUserId(userId).orElseThrow(() ->
+                new EntityNotFoundException("ShoppingCart not found with userId " + userId));
+    }
+
+    @Override
+    public void createShoppingCart(User user) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(user);
+        shoppingCartRepository.save(shoppingCart);
     }
 }
