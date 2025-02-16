@@ -44,14 +44,14 @@ public class OrderServiceImpl implements OrderService {
         Set<CartItem> cartItems = cart.getCartItems();
         if (cartItems.isEmpty()) {
             throw new OrderProcessingException(
-                    "Add items before checkout."
-            );
+                    "Can't process order for empty cart with id: " + cart.getId());
         }
         Order order = buildOrder(orderRequestDto.getShippingAddress(), user, cartItems);
         orderRepository.save(order);
         Set<OrderItem> orderItems = createOrderItemsSet(cartItems, order);
         order.setOrderItems(orderItems);
         orderItemRepository.saveAll(orderItems);
+        cart.getCartItems().clear();
         return orderMapper.toDto(order);
     }
 
