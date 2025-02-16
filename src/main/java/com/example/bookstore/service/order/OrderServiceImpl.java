@@ -52,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
         Set<OrderItem> orderItems = createOrderItemsSet(cartItems, order);
         order.setOrderItems(orderItems);
         orderItemRepository.saveAll(orderItems);
-        cartItemRepository.deleteByShoppingCart(user.getId());
+        cartItemRepository.deleteByShoppingCartAndId(user.getId());
         return orderMapper.toDto(order);
     }
 
