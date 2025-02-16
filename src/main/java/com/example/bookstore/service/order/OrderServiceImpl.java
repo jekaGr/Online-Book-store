@@ -5,6 +5,7 @@ import com.example.bookstore.dto.order.OrderDtoForUpdate;
 import com.example.bookstore.dto.order.OrderResponseDto;
 import com.example.bookstore.dto.orderitem.OrderItemResponseDto;
 import com.example.bookstore.exception.EntityNotFoundException;
+import com.example.bookstore.exception.OrderProcessingException;
 import com.example.bookstore.mapper.OrderItemMapper;
 import com.example.bookstore.mapper.OrderMapper;
 import com.example.bookstore.model.CartItem;
@@ -42,8 +43,8 @@ public class OrderServiceImpl implements OrderService {
         ShoppingCart cart = getShoppingCartByUser(user);
         Set<CartItem> cartItems = cart.getCartItems();
         if (cartItems.isEmpty()) {
-            throw new EntityNotFoundException(
-                    "Додайте товари перед оформленням замовлення."
+            throw new OrderProcessingException(
+                    "Add items before checkout."
             );
         }
         Order order = buildOrder(orderRequestDto.getShippingAddress(), user, cartItems);
@@ -51,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
         Set<OrderItem> orderItems = createOrderItemsSet(cartItems, order);
         order.setOrderItems(orderItems);
         orderItemRepository.saveAll(orderItems);
-        cartItemRepository.deleteByShoppingCartAndId(user.getId());
+        cartItemRepository.deleteByShoppingCart(user.getId());
         return orderMapper.toDto(order);
     }
 

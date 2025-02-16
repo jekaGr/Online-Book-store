@@ -41,9 +41,9 @@ public class Order {
     private Status status;
     @Column(nullable = false)
     private BigDecimal total;
-    @Column(name = "order_date", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime orderDate;
-    @Column(name = "shipping_address", nullable = false)
+    @Column(nullable = false)
     private String shippingAddress;
     @OneToMany(mappedBy = "order")
     private Set<OrderItem> orderItems = new HashSet<>();

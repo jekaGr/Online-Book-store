@@ -10,6 +10,6 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     Optional<CartItem> findByIdAndShoppingCartId(Long cartItemId, Long shoppingCartId);
 
     @Modifying
-    @Query("UPDATE CartItem c SET c.isDeleted = true WHERE c.shoppingCart.id = :userId")
-    void deleteByShoppingCartAndId(Long userId);
+    @Query("DELETE FROM CartItem c WHERE c.shoppingCart.id = :userId")
+    void deleteByShoppingCart(Long userId);
 }
