@@ -12,7 +12,7 @@ services:
     ports:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       interval: 30s
       timeout: 30s
       retries: 3
@@ -33,6 +33,6 @@ services:
         "spring.datasource.password" : "$MYSQL_ROOT_PASSWORD",
         "spring.datasource.driver-class-name":"com.mysql.cj.jdbc.Driver",
         "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL8Dialect",
-        "spring.jpa.hibernate.ddl-auto":"update"
+        "spring.jpa.hibernate.ddl-auto":"validate"
       }'
       JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
