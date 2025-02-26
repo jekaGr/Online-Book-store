@@ -1,4 +1,4 @@
-package com.example.bookstore.controler;
+package com.example.bookstore.controller;
 
 import com.example.bookstore.dto.user.UserLoginRequestDto;
 import com.example.bookstore.dto.user.UserLoginResponseDto;
