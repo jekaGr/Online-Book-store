@@ -57,7 +57,6 @@ public class BookServiceTest {
 
     @BeforeEach
     void setUp() {
-        // ініціалізація тестових даних
         book = new Book();
         book.setId(1L);
         book.setTitle("Test Book");

@@ -104,7 +104,7 @@ class BookControllerTest {
         BookDto actual = objectMapper.readValue(
                 result.getResponse().getContentAsString(),
                 BookDto.class);
-        reflectionEquals(expected, actual,"id");
+        assertTrue(reflectionEquals(expected, actual, "id"));
     }
 
     @WithMockUser(username = "user", roles = "USER")

@@ -73,7 +73,7 @@ public class TestUtil {
 
     public static CategoryResponseDto getCategoryResponseDto() {
         return new CategoryResponseDto().setId(1L).setName("category1")
-                .setDescription("description1");
+                .setDescription("category desc1");
     }
 
     public static List<CategoryResponseDto> getCategoryResponseDtoList() {

@@ -1,18 +1,22 @@
 package com.example.bookstore.repository;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.example.bookstore.model.Book;
 import com.example.bookstore.model.Category;
 import com.example.bookstore.repository.book.BookRepository;
+import com.example.bookstore.repository.category.CategoryRepository;
 import java.math.BigDecimal;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Pageable;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -20,21 +24,42 @@ public class BookRepositoryTest {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Test
-    void findById_GivenExistingBook_ShouldReturnBook() {
+    void findAllByCategoryId_ShouldReturnBooksForCategory() {
         // given
-        Book book = new Book();
-        book.setTitle("Testing Book");
-        book.setAuthor("Author Name");
-        book.setIsbn("ISBN");
-        book.setPrice(BigDecimal.valueOf(15.99));
-        book.setCategories(Set.of(new Category()));
-        bookRepository.save(book);
+        Category category = new Category().setName("Category Name");
+        categoryRepository.save(category);
+
+        List<Book> expected = new ArrayList<>();
+        Book book1 = new Book()
+                .setTitle("Book 1")
+                .setAuthor("Author 1")
+                .setPrice(BigDecimal.valueOf(19.99))
+                .setIsbn("ISBN 1")
+                .setCategories(Set.of(category));
+        bookRepository.save(book1);
+        expected.add(book1);
+
+        Book book2 = new Book()
+                .setTitle("Book 2")
+                .setAuthor("Author 2")
+                .setPrice(BigDecimal.valueOf(22.99))
+                .setIsbn("ISBN 2")
+                .setCategories(Set.of(category));
+        bookRepository.save(book2);
+        expected.add(book2);
+
         // when
-        Optional<Book> foundBook = bookRepository.findById(book.getId());
+        List<Book> books = bookRepository.findAllByCategoryId(category.getId(), Pageable.unpaged());
+
         // then
-        assertTrue(foundBook.isPresent());
-        assertEquals("Testing Book", foundBook.get().getTitle());
+        assertNotNull(books);
+        assertEquals(2, books.size());
+        assertTrue(books.stream().anyMatch(b -> b.getTitle().equals("Book 1")));
+        assertTrue(books.stream().anyMatch(b -> b.getTitle().equals("Book 2")));
     }
 
 }

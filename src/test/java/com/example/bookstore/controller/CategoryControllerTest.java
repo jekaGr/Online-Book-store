@@ -113,7 +113,7 @@ class CategoryControllerTest {
                         CategoryResponseDto.class);
 
         assertNotNull(actual);
-        reflectionEquals(expected, actual);
+        assertTrue(reflectionEquals(expected, actual));
     }
 
     @WithMockUser(username = "admin@mail.com", roles = {"ADMIN", "USER"})
