@@ -3,6 +3,9 @@ package com.example.bookstore.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 import com.example.bookstore.dto.category.CategoryRequestDto;
 import com.example.bookstore.dto.category.CategoryResponseDto;
@@ -37,7 +40,7 @@ class CategoryServiceTest {
     void getById_WithNonExisingCategory_ShouldThrowException() {
         // Given
         Long categoryId = 100L;
-        Mockito.when(categoryRepository.findById(categoryId)).thenReturn(Optional.empty());
+        when(categoryRepository.findById(categoryId)).thenReturn(Optional.empty());
         // When
         Exception exception = assertThrows(
                 EntityNotFoundException.class,
@@ -47,7 +50,7 @@ class CategoryServiceTest {
         String expected = "Can't get a category by id: " + categoryId;
         String actual = exception.getMessage();
         assertEquals(expected, actual);
-        Mockito.verify(categoryRepository, Mockito.times(1)).findById(categoryId);
+        verify(categoryRepository).findById(categoryId);
     }
 
     @Test
@@ -64,15 +67,15 @@ class CategoryServiceTest {
         expected.setName(category.getName());
         expected.setDescription(category.getDescription());
 
-        Mockito.when(categoryRepository.findById(Mockito.anyLong()))
+        when(categoryRepository.findById(Mockito.anyLong()))
                 .thenReturn(Optional.of(category));
-        Mockito.when(categoryMapper.toDto(Mockito.any(Category.class))).thenReturn(expected);
+        when(categoryMapper.toDto(Mockito.any(Category.class))).thenReturn(expected);
         // When
         CategoryResponseDto actual = categoryService.getById(categoryId);
         // Then
         assertNotNull(actual);
         assertEquals(expected, actual);
-        Mockito.verify(categoryRepository, Mockito.times(1)).findById(categoryId);
+        verify(categoryRepository, Mockito.times(1)).findById(categoryId);
     }
 
     @Test
@@ -92,8 +95,8 @@ class CategoryServiceTest {
         List<Category> categories = List.of(category);
         Page<Category> categoryPage = new PageImpl<>(categories, pageable, 5);
 
-        Mockito.when(categoryRepository.findAll(pageable)).thenReturn(categoryPage);
-        Mockito.when(categoryMapper.toDto(category)).thenReturn(categoryDto);
+        when(categoryRepository.findAll(pageable)).thenReturn(categoryPage);
+        when(categoryMapper.toDto(category)).thenReturn(categoryDto);
 
         // When
         List<CategoryResponseDto> categoriesDto = categoryService.getAll(pageable);
@@ -102,9 +105,9 @@ class CategoryServiceTest {
         assertEquals(1,categoriesDto.size());
         assertEquals(categoryDto,categoriesDto.get(0));
 
-        Mockito.verify(categoryRepository, Mockito.times(1)).findAll(pageable);
-        Mockito.verify(categoryMapper, Mockito.times(1)).toDto(category);
-        Mockito.verifyNoMoreInteractions(categoryRepository, categoryMapper);
+        verify(categoryRepository, Mockito.times(1)).findAll(pageable);
+        verify(categoryMapper, Mockito.times(1)).toDto(category);
+        verifyNoMoreInteractions(categoryRepository, categoryMapper);
     }
 
     @Test
@@ -127,11 +130,11 @@ class CategoryServiceTest {
         categoryResponseDto.setName(updatedName);
         categoryResponseDto.setDescription(updatedDescription);
 
-        Mockito.when(categoryRepository.findById(Mockito.any()))
+        when(categoryRepository.findById(Mockito.any()))
                 .thenReturn(Optional.of(existingCategory));
-        Mockito.when(categoryRepository.save(Mockito.any(Category.class)))
+        when(categoryRepository.save(Mockito.any(Category.class)))
                 .thenReturn(existingCategory);
-        Mockito.when(categoryMapper.toDto(Mockito.any(Category.class)))
+        when(categoryMapper.toDto(Mockito.any(Category.class)))
                 .thenReturn(categoryResponseDto);
 
         // When
@@ -142,10 +145,10 @@ class CategoryServiceTest {
         assertEquals(updatedName, updatedCategoryDto.getName());
         assertEquals(updatedDescription, updatedCategoryDto.getDescription());
 
-        Mockito.verify(categoryRepository, Mockito.times(1))
+        verify(categoryRepository, Mockito.times(1))
                 .save(Mockito.any(Category.class));
-        Mockito.verify(categoryMapper, Mockito.times(1))
+        verify(categoryMapper, Mockito.times(1))
                 .updateCategory(Mockito.any(Category.class), Mockito.any(CategoryRequestDto.class));
-        Mockito.verifyNoMoreInteractions(categoryRepository, categoryMapper);
+        verifyNoMoreInteractions(categoryRepository, categoryMapper);
     }
 }

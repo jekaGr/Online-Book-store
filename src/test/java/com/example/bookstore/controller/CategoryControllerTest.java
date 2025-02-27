@@ -1,6 +1,7 @@
 package com.example.bookstore.controller;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -10,6 +11,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.example.bookstore.TestUtil;
 import com.example.bookstore.dto.category.CategoryRequestDto;
 import com.example.bookstore.dto.category.CategoryResponseDto;
 import com.example.bookstore.exception.EntityNotFoundException;
@@ -17,12 +19,10 @@ import com.example.bookstore.service.category.CategoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.sql.DataSource;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,7 +36,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
@@ -80,11 +79,9 @@ class CategoryControllerTest {
     @DisplayName("Create a new category as admin")
     void createCategory_ShouldReturnCategoryResponseDto() throws Exception {
         // Given
-        CategoryRequestDto requestDto = new CategoryRequestDto().setName("category4")
-                .setDescription("description4");
+        CategoryRequestDto requestDto = TestUtil.createCategoryRequestDto();
 
-        CategoryResponseDto expected = new CategoryResponseDto().setId(4L)
-                .setName("category4").setDescription("description4");
+        CategoryResponseDto expected = TestUtil.createCategoryResponseDto();
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
         // When
         MvcResult result = mockMvc.perform(post("/categories")
@@ -104,8 +101,7 @@ class CategoryControllerTest {
     @WithMockUser(username = "admin@mail.com", roles = {"ADMIN", "USER"})
     void getCategoryById_ShouldReturnCategory() throws Exception {
         // given
-        CategoryResponseDto expected = new CategoryResponseDto().setId(1L).setName("category1")
-                .setDescription("description1");
+        CategoryResponseDto expected = TestUtil.getCategoryResponseDto();
         // when
         MvcResult result = mockMvc.perform(get("/categories/{id}",1L)
                         .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
@@ -116,24 +112,15 @@ class CategoryControllerTest {
                 .readValue(result.getResponse().getContentAsString(),
                         CategoryResponseDto.class);
 
-        Assertions.assertNotNull(actual);
-        EqualsBuilder.reflectionEquals(expected, actual);
+        assertNotNull(actual);
+        reflectionEquals(expected, actual);
     }
 
     @WithMockUser(username = "admin@mail.com", roles = {"ADMIN", "USER"})
     @Test
     void getAll_GivenCategoriesInCatalog_ShouldReturnAllCategories() throws Exception {
         // given
-        List<CategoryResponseDto> expected = new ArrayList<>();
-        expected.add(new CategoryResponseDto().setId(1L)
-                .setName("category1")
-                .setDescription("category desc1"));
-        expected.add(new CategoryResponseDto().setId(2L)
-                .setName("category2")
-                .setDescription("category desc2"));
-        expected.add(new CategoryResponseDto().setId(3L)
-                .setName("category3")
-                .setDescription("category desc3"));
+        List<CategoryResponseDto> expected = TestUtil.getCategoryResponseDtoList();
 
         // when
         MvcResult result = mockMvc.perform(get("/categories")
@@ -143,8 +130,8 @@ class CategoryControllerTest {
         // then
         CategoryResponseDto[] actual = objectMapper.readValue(result.getResponse()
                         .getContentAsString(), CategoryResponseDto[].class);
-        Assertions.assertEquals(expected.size(), actual.length);
-        Assertions.assertEquals(expected, Arrays.stream(actual).toList());
+        assertEquals(expected.size(), actual.length);
+        assertEquals(expected, Arrays.stream(actual).toList());
     }
 
     @Test
