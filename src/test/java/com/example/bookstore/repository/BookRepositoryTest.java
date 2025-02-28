@@ -34,23 +34,23 @@ public class BookRepositoryTest {
         categoryRepository.save(category);
 
         List<Book> expected = new ArrayList<>();
-        Book book1 = new Book()
+        Book bookOne = new Book()
                 .setTitle("Book 1")
                 .setAuthor("Author 1")
                 .setPrice(BigDecimal.valueOf(19.99))
                 .setIsbn("ISBN 1")
                 .setCategories(Set.of(category));
-        bookRepository.save(book1);
-        expected.add(book1);
+        bookRepository.save(bookOne);
+        expected.add(bookOne);
 
-        Book book2 = new Book()
+        Book bookTwo = new Book()
                 .setTitle("Book 2")
                 .setAuthor("Author 2")
                 .setPrice(BigDecimal.valueOf(22.99))
                 .setIsbn("ISBN 2")
                 .setCategories(Set.of(category));
-        bookRepository.save(book2);
-        expected.add(book2);
+        bookRepository.save(bookTwo);
+        expected.add(bookTwo);
 
         // when
         List<Book> books = bookRepository.findAllByCategoryId(category.getId(), Pageable.unpaged());

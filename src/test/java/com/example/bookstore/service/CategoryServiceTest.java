@@ -75,7 +75,7 @@ class CategoryServiceTest {
         // Then
         assertNotNull(actual);
         assertEquals(expected, actual);
-        verify(categoryRepository, Mockito.times(1)).findById(categoryId);
+        verify(categoryRepository).findById(categoryId);
     }
 
     @Test
@@ -105,8 +105,8 @@ class CategoryServiceTest {
         assertEquals(1,categoriesDto.size());
         assertEquals(categoryDto,categoriesDto.get(0));
 
-        verify(categoryRepository, Mockito.times(1)).findAll(pageable);
-        verify(categoryMapper, Mockito.times(1)).toDto(category);
+        verify(categoryRepository).findAll(pageable);
+        verify(categoryMapper).toDto(category);
         verifyNoMoreInteractions(categoryRepository, categoryMapper);
     }
 
@@ -145,10 +145,9 @@ class CategoryServiceTest {
         assertEquals(updatedName, updatedCategoryDto.getName());
         assertEquals(updatedDescription, updatedCategoryDto.getDescription());
 
-        verify(categoryRepository, Mockito.times(1))
-                .save(Mockito.any(Category.class));
-        verify(categoryMapper, Mockito.times(1))
-                .updateCategory(Mockito.any(Category.class), Mockito.any(CategoryRequestDto.class));
+        verify(categoryRepository).save(Mockito.any(Category.class));
+        verify(categoryMapper).updateCategory(Mockito.any(Category.class),
+                Mockito.any(CategoryRequestDto.class));
         verifyNoMoreInteractions(categoryRepository, categoryMapper);
     }
 }

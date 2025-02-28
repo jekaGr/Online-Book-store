@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -95,7 +94,7 @@ public class BookServiceTest {
 
         // Then
         assertEquals(bookDto, actual);
-        verify(bookRepository, times(1)).save(book);
+        verify(bookRepository).save(book);
     }
 
     @Test
@@ -181,12 +180,8 @@ public class BookServiceTest {
         assertNotNull(actual);
         assertEquals(updatedPrice, actual.getPrice());
 
-        verify(bookRepository, times(1))
-                .findById(Mockito.any());
-        verify(bookRepository, times(1))
-                .save(Mockito.any(Book.class));
-        verify(bookMapper, times(1))
-                .toBookDto(Mockito.any(Book.class));
+        verify(bookRepository).findById(Mockito.any());
+        verify(bookRepository).save(Mockito.any(Book.class));
+        verify(bookMapper).toBookDto(Mockito.any(Book.class));
     }
-
 }

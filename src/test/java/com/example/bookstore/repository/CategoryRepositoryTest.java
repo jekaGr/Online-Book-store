@@ -19,19 +19,15 @@ class CategoryRepositoryTest {
     @Test
     void getCategoriesByIdIn_ShouldReturnCategoriesForGivenIds() {
         // given
-        Category category1 = new Category();
-        category1.setName("Category 1");
-        categoryRepository.save(category1);
+        Category category = new Category();
+        category.setName("Category 1");
+        categoryRepository.save(category);
 
-        Category category2 = new Category();
-        category2.setName("Category 2");
-        categoryRepository.save(category2);
+        Category categoryOne = new Category();
+        categoryOne.setName("Category 2");
+        categoryRepository.save(categoryOne);
 
-        Category category3 = new Category();
-        category3.setName("Category 3");
-        categoryRepository.save(category3);
-
-        List<Long> ids = List.of(category1.getId(), category2.getId());
+        List<Long> ids = List.of(category.getId(), categoryOne.getId());
 
         // when
         Set<Category> categories = categoryRepository.getCategoriesByIdIn(ids);

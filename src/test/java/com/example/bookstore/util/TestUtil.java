@@ -1,4 +1,4 @@
-package com.example.bookstore;
+package com.example.bookstore.util;
 
 import com.example.bookstore.dto.book.BookDto;
 import com.example.bookstore.dto.book.CreateBookRequestDto;

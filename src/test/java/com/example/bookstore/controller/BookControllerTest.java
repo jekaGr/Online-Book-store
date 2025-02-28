@@ -1,6 +1,7 @@
 package com.example.bookstore.controller;
 
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -10,11 +11,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.bookstore.TestUtil;
 import com.example.bookstore.dto.book.BookDto;
 import com.example.bookstore.dto.book.CreateBookRequestDto;
 import com.example.bookstore.exception.EntityNotFoundException;
 import com.example.bookstore.service.book.BookService;
+import com.example.bookstore.util.TestUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.sql.Connection;
@@ -23,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -126,8 +126,8 @@ class BookControllerTest {
         List<BookDto> books = objectMapper.convertValue(map.get("content"),
                 new TypeReference<>() {});
 
-        Assertions.assertEquals(3, books.size());
-        Assertions.assertEquals(expected, books);
+        assertEquals(3, books.size());
+        assertEquals(expected, books);
     }
 
     @Test
@@ -147,6 +147,18 @@ class BookControllerTest {
         assertNotNull(actual);
         assertNotNull(actual.getId());
         assertTrue(reflectionEquals(expected, actual));
+    }
+
+    @Test
+    @WithMockUser(username = "user", roles = "USER")
+    @DisplayName("Get book by non-existent id as user")
+    void getBookById_NonExistentId_ShouldReturnNotFound() throws Exception {
+        // Given
+        Long invalidId = 999L;
+        // When
+        mockMvc.perform(get("/books/{id}", invalidId)
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test

@@ -11,11 +11,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.bookstore.TestUtil;
 import com.example.bookstore.dto.category.CategoryRequestDto;
 import com.example.bookstore.dto.category.CategoryResponseDto;
 import com.example.bookstore.exception.EntityNotFoundException;
 import com.example.bookstore.service.category.CategoryService;
+import com.example.bookstore.util.TestUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -114,6 +114,18 @@ class CategoryControllerTest {
 
         assertNotNull(actual);
         assertTrue(reflectionEquals(expected, actual));
+    }
+
+    @Test
+    @WithMockUser(username = "user", roles = "USER")
+    @DisplayName("Get category by non-existent id as user")
+    void getCategoryById_NonExistentId_ShouldReturnNotFound() throws Exception {
+        // Given
+        Long invalidId = 999L;
+        // When
+        mockMvc.perform(get("/categories/{id}", invalidId)
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @WithMockUser(username = "admin@mail.com", roles = {"ADMIN", "USER"})

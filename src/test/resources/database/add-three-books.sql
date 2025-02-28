@@ -1,4 +1,4 @@
-insert into categories (id,name, description, is_deleted)
+insert into categories (id, name, description, is_deleted)
 VALUES (1,'category1', 'category desc1', false),
        (2,'category2', 'category desc2', false),
        (3,'category3', 'category desc3', false);
