@@ -4,7 +4,7 @@ services:
   mysqldb:
     image: mysql
     restart: unless-stopped
-    env_file: ./.env
+    env_file: .env.template
     environment:
       - MYSQLDB_USER=$MYSQLDB_USER
       - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
@@ -22,7 +22,7 @@ services:
     restart: on-failure
     image: book-store
     build: .
-    env_file: ./.env
+    env_file: .env.template
     ports:
       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
       - $DEBUG_PORT:$DEBUG_PORT
