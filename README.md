@@ -138,12 +138,3 @@ For detailed information about the available APIs, visit the Swagger UI at:
 
 ---
 
-## 📝 Contributing
-
-Feel free to fork this repository, create issues, or submit pull requests. Contributions are always welcome!
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License – see the [LICENSE.md](LICENSE.md) file for details.
