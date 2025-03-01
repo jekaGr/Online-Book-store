@@ -147,31 +147,3 @@ Feel free to fork this repository, create issues, or submit pull requests. Contr
 ## 📄 License
 
 This project is licensed under the MIT License – see the [LICENSE.md](LICENSE.md) file for details.
-
-spring.datasource.url=jdbc:mysql://localhost:3306/bookstore
-spring.datasource.username=YOUR_USERNAME
-spring.datasource.password=YOUR_PASSWORD
-3. Build and Run the Application
-Option 1: Running with Maven
-bash
-Копіювати
-mvn clean install
-mvn spring-boot:run
-The app will be accessible at http://localhost:8080.
-
-Option 2: Running with Docker (Optional)
-If you'd like to run the app using Docker, you can start the database container:
-
-bash
-Копіювати
-docker-compose up
-Then, access the application at http://localhost:8088.
-
-📑 API Documentation
-For detailed information about the available APIs, visit the Swagger UI at: Swagger UI
-
-📝 Contributing
-Feel free to fork this repository, create issues, or submit pull requests. Contributions are always welcome!
-
-📄 License
-This project is licensed under the MIT License – see the LICENSE.md file for details.
