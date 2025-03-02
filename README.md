@@ -51,90 +51,87 @@ The application is structured around a three-layer architecture:
 - **Order**: Contains the details of a placed order.
 - **OrderItem**: Represents the books that are part of an order.
 
-
 ---
 
 ## 🔧 Technologies Used
 
 ### Frameworks & Libraries
-- **Spring Boot**: Core framework for building the application
-- **Spring Data JPA**: For interacting with the database via Java Persistence API
-- **Spring Security**: Ensures secure access and authentication mechanisms
-- **Spring MVC**: To handle HTTP requests and responses
+- **Spring Boot 3.4.1**: Core framework for building the application
+- **Spring Data JPA 3.4.1**: For interacting with the database via Java Persistence API
+- **Spring Security 6.4.2**: Ensures secure access and authentication mechanisms
+- **Spring MVC 6.2.1**: To handle HTTP requests and responses
 
 ### Database & Persistence
-- **MySQL**: Relational database for storing application data
-- **Liquibase**: For managing database schema changes
+- **MySQL 8.2.0**: Relational database for storing application data
+- **Liquibase 4.29.2**: For managing database schema changes
 
 ### Security & Authentication
-- **JWT**: Used for JSON Web Token-based user authentication
+- **JWT 0.12.6**: Used for JSON Web Token-based user authentication
 
 ### Utility Libraries
-- **MapStruct**: For efficient object mapping
-- **Lombok**: To reduce boilerplate code
+- **MapStruct 1.6.3**: For efficient object mapping
+- **Lombok 1.18.36**: To reduce boilerplate code
 
 ### Documentation & Testing
-- **Swagger UI**: To explore the API and view documentation
-- **JUnit & Testcontainers**: For unit testing and integration testing
+- **Swagger UI 4.18.2**: To explore the API and view documentation
+- **JUnit 5.11.4 & Testcontainers 1.20.5**: For unit testing and integration testing
 
 ### Build & Deployment
-- **Maven**: For managing project dependencies and building the project
-- **Docker**: (Optional) For containerizing the application and database
+- **Maven 3.8.4**: For managing project dependencies and building the project
+- **Docker 20.10.12**: (Optional) For containerizing the application
 
 ---
 
-## 🚀 Setup and Run Instructions
+## 🌐 API Endpoints and Access Levels
 
-### Prerequisites
-Before you begin, make sure the following software is installed:
-- **Java 21** (or later)
-- **IntelliJ IDEA** (or another Java IDE)
-- **MySQL** (or use Docker for a containerized MySQL setup)
-- **Maven** for dependency management
-- **Docker** (optional, if you prefer using Docker for database setup)
+Here's a list of available endpoints along with the access levels required:
 
-### 1. Clone the Repository
-Clone the project repository to your local machine:
-```bash
-git clone https://github.com/your-username/bookstore-app.git
-cd bookstore-app
-```
+### Authentication:
+- **POST /auth/register**: Register a new user (Public)
+- **POST /auth/login**: Authenticate a user and generate a JWT token (Public)
 
-### 2. Configure the Database
-- Use MySQL Workbench or any SQL tool to create a database:
-```sql
-CREATE DATABASE bookstore;
-```
-- Open the `application.properties` file (located in `src/main/resources/`) and update it with your MySQL credentials:
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/bookstore
-spring.datasource.username=YOUR_USERNAME
-spring.datasource.password=YOUR_PASSWORD
-```
+### Book Management:
+- **GET /books**: Fetch all books (User)
+- **GET /books/{id}**: Fetch a specific book by ID (User)
+- **GET books/search**: Search for books based on specific parameters (User)
+- **POST /api/books**: Add a new book (Admin)
+- **PUT /api/books/{id}**: Update book details (Admin)
+- **DELETE /api/books/{id}**: Soft delete a book (Admin)
 
-### 3. Build and Run the Application
+### Category Management:
+- **GET /categories**: Fetch all categories (Public)
+- **GET /categories/{id}**: Fetch a specific category by ID (Public)
+- **POST /categories**: Add a new category (Admin)
+- **PUT /categories/{id}**: Update category details (Admin)
+- **DELETE /categories/{id}**: Soft delete a category (Admin)
+- **GET /categories/{id}/books**: Get books by category ID (Public)
 
-#### Option 1: Running with Maven
-To build and run the application using Maven, execute the following commands:
-```bash
-mvn clean install
-mvn spring-boot:run
-```
-The app will be accessible at [http://localhost:8080](http://localhost:8080).
+### Shopping Cart:
+- **GET /cart**: Fetch user's shopping cart (User)
+- **POST /cart**: Add an item to the cart (User)
+- **PUT /cart/items/{cartItemId}**: Update an item in the cart (User)
+- **DELETE /cart/items/{cartItemId}**: Remove an item from the cart (User)
 
-#### Option 2: Running with Docker (Optional)
-If you'd like to run the app using Docker, you can start the database container with Docker Compose:
-```bash
-docker-compose up
-```
-This will spin up the database in a Docker container. The application will then be accessible at [http://localhost:8088](http://localhost:8088).
-
+### Order Management:
+- **GET /orders**: Fetch all orders of the authenticated user (User)
+- **GET /orders/{orderId}/items**: Get items of a specific order (User)
+- **POST /orders**: Place a new order (User)
+- **PATCH orders/{orderId}**: Update order status (Admin)
+- **GET /orders/{orderId}/items/{itemId}**: Get details of a specific item in an order (User)
 ---
 
-## 📑 API Documentation
+## 🛠️ Working with the .env File
 
-For detailed information about the available APIs, visit the Swagger UI at:
-[Swagger UI](http://localhost:8080/swagger-ui.html)
+To manage sensitive information and configuration settings, create a `.env` file in the root directory of your project. This file will contain environment variables that will be used by the application.
 
----
+### Example .env File
+```env
+MYSQLDB_USER=YOUR_USERNAME
+MYSQL_ROOT_PASSWORD=YOUR_PASSWORD
+MYSQL_DATABASE=bookstore
+MYSQLDB_LOCAL_PORT=YOUR_LOCAL_PORT(3307)
+MYSQLDB_DOCKER_PORT=MYSQLLOCAL_PORT(3306)
 
+SPRING_LOCAL_PORT=YOUR_HOST_LOCAL_PORT(8081)
+SPRING_DOCKER_PORT=HOST_LOCAL_PORT(8080)
+DEBUG_PORT=5005
