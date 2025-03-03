@@ -82,7 +82,12 @@ The application is structured around a three-layer architecture:
 
 ---
 ## 🛢️ Data structure
-![Book Store Database](images/bookStoreDb.png)
+
+---
+<h1>
+ <img src="src/main/resources/images/bookStoreDb.png" alt="Database structure"/>
+</h1>
+<div align="right"><kbd><a href="#online-book-store">↑ Back to top ↑</a></kbd></div>
 
 ## 🌐 API Endpoints and Access Levels
 
@@ -137,3 +142,51 @@ MYSQLDB_DOCKER_PORT=MYSQLLOCAL_PORT(3306)
 SPRING_LOCAL_PORT=YOUR_HOST_LOCAL_PORT(8081)
 SPRING_DOCKER_PORT=HOST_LOCAL_PORT(8080)
 DEBUG_PORT=5005
+```
+
+## ⚙ Setup
+
+---
+### Using 
+1. Clone repository:
+    ```bash
+      git clone https://github.com/jekaGr/Online-Book-store.git
+   ```
+2. Navigate to project directory:
+   ```bash
+   cd book-store
+    ```
+3. Build a project:
+    ```bash
+    mvn clean install
+    ```
+
+## 🚀 Run
+
+---
+### 🏚️ Locally
+```bash
+mvn spring-boot:run
+```
+
+### 🐳 Docker
+1. Install Docker.
+2. Create a Docker image:
+    ```bash
+   docker build -t book-store .
+    ```
+3. Run the Docker container:
+    ```bash
+   docker-compose up
+    ```
+4. The application will be accessible at http://localhost:SPRING_LOCAL_PORT (replace SPRING_LOCAL_PORT with the port you configured in .env).
+
+
+## Postman Collection
+
+---
+### For quick start:
+
+- Open Postman and import [book store collection.](src/main/resources/postman/BookStore.postman_collection.json)
+- Test API endpoints following included documentation.
+> **Note:** Before testing endpoints make sure application is running, and you have stable coonnection to database.
