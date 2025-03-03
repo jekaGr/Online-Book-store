@@ -81,6 +81,8 @@ The application is structured around a three-layer architecture:
 - **Docker 20.10.12**: (Optional) For containerizing the application
 
 ---
+## 🛢️ Data structure
+![Book Store Database](images/bookStoreDb.png)
 
 ## 🌐 API Endpoints and Access Levels
 
