@@ -13,10 +13,12 @@ import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Getter
 @Setter
 @Entity
+@Accessors(chain = true)
 @Table(name = "shopping_carts")
 public class ShoppingCart {
     @Id
