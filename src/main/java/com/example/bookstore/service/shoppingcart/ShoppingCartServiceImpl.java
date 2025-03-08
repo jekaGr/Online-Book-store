@@ -24,6 +24,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final CartItemRepository cartItemRepository;
 
     @Override
+    @Transactional
     public ShoppingCartResponseDto getShoppingCart(Long id) {
         return shoppingCartMapper.toShoppingCartResponseDto(shoppingCartRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(

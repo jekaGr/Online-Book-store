@@ -13,8 +13,10 @@ import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,6 +25,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode
+@Accessors(chain = true)
 @SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id =?")
 @SQLRestriction("is_deleted = false")
 @Table(name = "users")

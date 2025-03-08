@@ -12,12 +12,14 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Setter
 @Entity
+@Accessors(chain = true)
 @SQLDelete(sql = "UPDATE cart_items SET is_deleted = TRUE WHERE id = ?")
 @SQLRestriction(value = "is_deleted = FALSE")
 @Table(name = "cart_items")
