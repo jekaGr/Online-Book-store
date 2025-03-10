@@ -38,7 +38,8 @@ public class ShoppingCartRepositoryTest {
 
     @Test
     @Sql(
-            scripts = "classpath:database/insert-data-ci_repository_test.sql",
+            scripts = {"classpath:database/add-test-users.sql",
+                    "classpath:database/add-test-shopping-carts.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
     )
     @Sql(

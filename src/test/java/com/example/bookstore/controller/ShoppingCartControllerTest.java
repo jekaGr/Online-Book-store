@@ -40,14 +40,14 @@ class ShoppingCartControllerTest {
     static void beforeAll(@Autowired WebApplicationContext applicationContext) {
         mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext)
                 .apply(springSecurity()).build();
-
     }
 
     @Test
     @WithUserDetails(value = "user@i.ua",
             userDetailsServiceBeanName = "customUserDetailsService")
     @Sql(
-            scripts = {"classpath:database/insert-data-ci_repository_test.sql"},
+            scripts = {"classpath:database/add-test-users.sql",
+                    "classpath:database/add-test-shopping-carts.sql",},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
     )
     @Sql(
@@ -77,7 +77,8 @@ class ShoppingCartControllerTest {
     @WithUserDetails(value = "user@i.ua",
             userDetailsServiceBeanName = "customUserDetailsService")
     @Sql(
-            scripts = {"classpath:database/insert-data-ci_repository_test.sql",
+            scripts = {"classpath:database/add-test-users.sql",
+                    "classpath:database/add-test-shopping-carts.sql",
                     "classpath:database/insert-into-cart_items.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
     )
@@ -110,5 +111,49 @@ class ShoppingCartControllerTest {
         assertNotNull(responseBody, "Response body should not be null");
 
         assertEquals(expected.getId(), responseDto.getId(), "Cart ID should match");
+    }
+
+    @Test
+    @WithUserDetails(value = "user@i.ua", userDetailsServiceBeanName = "customUserDetailsService")
+    @Sql(
+            scripts = {"classpath:database/add-test-users.sql",
+                    "classpath:database/add-test-shopping-carts.sql"},
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
+    )
+    @Sql(
+            scripts = "classpath:database/delete-all-data-before-tests.sql",
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD
+    )
+    void createCartItem_InvalidProductId_ShouldReturnBadRequest() throws Exception {
+        // Given
+        CartItemRequestDto cartItemRequestDto = new CartItemRequestDto();
+        cartItemRequestDto.setBookId(-1L);
+        cartItemRequestDto.setQuantity(2);
+
+        String jsonRequest = objectMapper.writeValueAsString(cartItemRequestDto);
+
+        // When
+        mockMvc.perform(post("/cart")
+                        .content(jsonRequest)
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    void createCartItem_WithoutAuthentication_ShouldReturnUnauthorized() throws Exception {
+        // Given
+        CartItemRequestDto cartItemRequestDto = new CartItemRequestDto();
+        cartItemRequestDto.setBookId(4L);
+        cartItemRequestDto.setQuantity(2);
+
+        String jsonRequest = objectMapper.writeValueAsString(cartItemRequestDto);
+
+        // When
+        mockMvc.perform(post("/cart")
+                        .content(jsonRequest)
+                        .contentType(org.springframework.http.MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized())
+                .andReturn();
     }
 }
